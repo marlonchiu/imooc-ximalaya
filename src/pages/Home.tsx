@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:07:20
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-15 18:40:51
+ * @LastEditTime: 2021-11-16 18:50:27
  */
 import React, {Component} from 'react';
 import {Text, View, Button} from 'react-native';
@@ -25,7 +25,7 @@ class Home extends Component<IProps> {
     return (
       <View>
         <Text>Home</Text>
-        <Button title="跳转到详情页" onPress={this._onPressButton}></Button>
+        <Button title="跳转到详情页" onPress={this._onPressButton} />
       </View>
     );
   }

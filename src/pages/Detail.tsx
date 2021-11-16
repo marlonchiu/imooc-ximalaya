@@ -4,11 +4,11 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:10:18
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-15 18:45:06
+ * @LastEditTime: 2021-11-16 18:49:16
  */
-import {RouteProp} from '@react-navigation/native';
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
+import {RouteProp} from '@react-navigation/native';
 import {RootStackParamList} from '@/navigator/index';
 
 interface IProps {

@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:11:07
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-15 18:45:56
+ * @LastEditTime: 2021-11-16 18:48:03
  */
 import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
@@ -14,12 +14,14 @@ import {
   HeaderStyleInterpolators,
   StackNavigationProp,
 } from '@react-navigation/stack';
-import Home from '@/pages/Home';
+import BottomTabs from './BottomTabs';
 import Detail from '@/pages/Detail';
 import {Platform, StyleSheet} from 'react-native';
 
 export type RootStackParamList = {
-  Home: undefined;
+  BottomTabs: {
+    screen?: string;
+  };
   Detail: {
     id: number;
   };
@@ -54,12 +56,12 @@ class Navigator extends Component {
             },
           }}>
           <Stack.Screen
-            name="Home"
+            name="BottomTabs"
             options={{
               headerTitleAlign: 'center',
               headerTitle: '首页',
             }}
-            component={Home}
+            component={BottomTabs}
           />
           <Stack.Screen
             name="Detail"
