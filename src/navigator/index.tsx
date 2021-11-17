@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:11:07
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-16 18:48:03
+ * @LastEditTime: 2021-11-17 09:11:54
  */
 import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
