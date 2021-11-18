@@ -4,9 +4,9 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-17 18:38:25
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-17 18:57:47
+ * @LastEditTime: 2021-11-18 17:39:43
  */
-import {Model} from 'dva-core-ts';
+import {Model, Effect} from 'dva-core-ts';
 import {Reducer} from 'redux';
 
 export interface HomeState {
@@ -25,14 +25,20 @@ interface HomeModel extends Model {
   reducers: {
     add: Reducer<HomeState>;
   };
-  // effects: {
-  //   asyncAdd:Effect
-  // };
+  effects: {
+    asyncAdd: Effect;
+  };
 }
 
 const initState = {
   num: 0,
 };
+
+function delay(timeout: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
 
 const homeModel: HomeModel = {
   namespace: 'home',
@@ -43,6 +49,15 @@ const homeModel: HomeModel = {
         ...state,
         num: state.num + payload.num,
       };
+    },
+  },
+  effects: {
+    *asyncAdd({payload}, {call, put}) {
+      yield call(delay, 3000);
+      yield put({
+        type: 'add',
+        payload,
+      });
     },
   },
 };

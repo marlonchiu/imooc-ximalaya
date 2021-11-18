@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:07:20
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-18 17:28:42
+ * @LastEditTime: 2021-11-18 17:40:18
  */
 import React, {Component} from 'react';
 import {Text, View, Button} from 'react-native';
@@ -40,12 +40,22 @@ class Home extends Component<IProps> {
       },
     });
   };
+  _handleAsyncAdd = () => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'home/asyncAdd',
+      payload: {
+        num: 5,
+      },
+    });
+  };
   render() {
     const {num} = this.props;
     return (
       <View>
         <Text>Home{num}</Text>
-        <Button title="+" onPress={this._handleAdd} />
+        <Button title="同步添加" onPress={this._handleAdd} />
+        <Button title="异步添加" onPress={this._handleAsyncAdd} />
         <Button title="跳转到详情页" onPress={this._onPressButton} />
       </View>
     );
