@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:07:20
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-18 17:40:18
+ * @LastEditTime: 2021-11-18 17:57:32
  */
 import React, {Component} from 'react';
 import {Text, View, Button} from 'react-native';
@@ -12,8 +12,9 @@ import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '@/models/index';
 import {RootStackNavigation} from '../navigator';
 
-const mapStateToProps = ({home}: RootState) => ({
+const mapStateToProps = ({home, loading}: RootState) => ({
   num: home.num,
+  loading: loading.effects['home/asyncAdd'],
 });
 
 const connector = connect(mapStateToProps);
@@ -50,10 +51,11 @@ class Home extends Component<IProps> {
     });
   };
   render() {
-    const {num} = this.props;
+    const {num, loading} = this.props;
     return (
       <View>
         <Text>Home{num}</Text>
+        <Text>{loading ? '异步计算中...' : ''}</Text>
         <Button title="同步添加" onPress={this._handleAdd} />
         <Button title="异步添加" onPress={this._handleAsyncAdd} />
         <Button title="跳转到详情页" onPress={this._onPressButton} />

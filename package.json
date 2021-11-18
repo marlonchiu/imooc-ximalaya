@@ -17,6 +17,7 @@
     "@react-navigation/stack": "5.x",
     "@types/react-redux": "^7.1.20",
     "dva-core-ts": "^2.0.7",
+    "dva-loading-ts": "^3.0.23",
     "react": "17.0.2",
     "react-native": "0.66.2",
     "react-native-config": "^1.4.5",
