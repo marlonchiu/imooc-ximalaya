@@ -4,13 +4,23 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:07:20
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-17 09:13:06
+ * @LastEditTime: 2021-11-18 17:28:42
  */
 import React, {Component} from 'react';
 import {Text, View, Button} from 'react-native';
+import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from '@/models/index';
 import {RootStackNavigation} from '../navigator';
 
-interface IProps {
+const mapStateToProps = ({home}: RootState) => ({
+  num: home.num,
+});
+
+const connector = connect(mapStateToProps);
+
+type ModelState = ConnectedProps<typeof connector>;
+
+interface IProps extends ModelState {
   navigation: RootStackNavigation;
 }
 
@@ -21,14 +31,25 @@ class Home extends Component<IProps> {
       id: 123,
     });
   };
+  _handleAdd = () => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'home/add',
+      payload: {
+        num: 10,
+      },
+    });
+  };
   render() {
+    const {num} = this.props;
     return (
       <View>
-        <Text>Home</Text>
+        <Text>Home{num}</Text>
+        <Button title="+" onPress={this._handleAdd} />
         <Button title="跳转到详情页" onPress={this._onPressButton} />
       </View>
     );
   }
 }
 
-export default Home;
+export default connector(Home);
