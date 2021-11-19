@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-16 16:00:07
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-17 09:11:37
+ * @LastEditTime: 2021-11-19 10:33:45
  */
 
 import React, {Component} from 'react';
@@ -13,6 +13,7 @@ import Home from '@/pages/Home';
 import Listen from '@/pages/Listen';
 import Found from '@/pages/Found';
 import Account from '@/pages/Account';
+import Icon from '@/assets/iconfont/index';
 import {RouteProp, TabNavigationState} from '@react-navigation/native';
 import {RootStackParamList, RootStackNavigation} from '@/navigator/index';
 
@@ -71,6 +72,9 @@ class BottomTabs extends Component<IProps> {
           component={Home}
           options={{
             tabBarLabel: '首页',
+            tabBarIcon: ({color, size}) => (
+              <Icon name="icon-shouye" color={color} size={size} />
+            ),
           }}
         />
         <Tab.Screen
@@ -78,6 +82,9 @@ class BottomTabs extends Component<IProps> {
           component={Listen}
           options={{
             tabBarLabel: '我听',
+            tabBarIcon: ({color, size}) => (
+              <Icon name="icon-shoucang" color={color} size={size} />
+            ),
           }}
         />
         <Tab.Screen
@@ -85,6 +92,9 @@ class BottomTabs extends Component<IProps> {
           component={Found}
           options={{
             tabBarLabel: '发现',
+            tabBarIcon: ({color, size}) => (
+              <Icon name="icon-faxian" color={color} size={size} />
+            ),
           }}
         />
         <Tab.Screen
@@ -92,6 +102,9 @@ class BottomTabs extends Component<IProps> {
           component={Account}
           options={{
             tabBarLabel: '我的',
+            tabBarIcon: ({color, size}) => (
+              <Icon name="icon-user" color={color} size={size} />
+            ),
           }}
         />
       </Tab.Navigator>
