@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:11:07
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-19 10:44:24
+ * @LastEditTime: 2021-11-20 17:37:25
  */
 import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
@@ -16,7 +16,7 @@ import {
 } from '@react-navigation/stack';
 import BottomTabs from './BottomTabs';
 import Detail from '@/pages/Detail';
-import {Platform, StyleSheet} from 'react-native';
+import {Platform, StatusBar, StyleSheet} from 'react-native';
 
 export type RootStackParamList = {
   BottomTabs: {
@@ -45,6 +45,7 @@ class Navigator extends Component {
             // 开启手势
             gestureEnabled: true,
             gestureDirection: 'horizontal',
+            headerStatusBarHeight: StatusBar.currentHeight,
             // 标题栏的样式
             headerStyle: {
               ...Platform.select({
