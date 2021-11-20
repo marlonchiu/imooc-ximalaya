@@ -4,13 +4,14 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:07:20
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-18 17:57:32
+ * @LastEditTime: 2021-11-20 17:47:01
  */
 import React, {Component} from 'react';
 import {Text, View, Button} from 'react-native';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '@/models/index';
-import {RootStackNavigation} from '../navigator';
+import {RootStackNavigation} from '../../navigator';
+import Carousel from './Carousel';
 
 const mapStateToProps = ({home, loading}: RootState) => ({
   num: home.num,
@@ -59,6 +60,7 @@ class Home extends Component<IProps> {
         <Button title="同步添加" onPress={this._handleAdd} />
         <Button title="异步添加" onPress={this._handleAsyncAdd} />
         <Button title="跳转到详情页" onPress={this._onPressButton} />
+        <Carousel />
       </View>
     );
   }

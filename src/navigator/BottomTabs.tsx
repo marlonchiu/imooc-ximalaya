@@ -4,12 +4,11 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-16 16:00:07
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-19 10:54:55
+ * @LastEditTime: 2021-11-20 17:48:40
  */
 
 import React, {Component} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from '@/pages/Home';
 import Listen from '@/pages/Listen';
 import Found from '@/pages/Found';
 import Account from '@/pages/Account';

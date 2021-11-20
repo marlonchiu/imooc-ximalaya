@@ -4,11 +4,11 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-19 10:50:02
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-20 17:33:45
+ * @LastEditTime: 2021-11-20 17:49:54
  */
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import Home from '@/pages/Home';
+import Home from '@/pages/Home/index';
 
 const Tab = createMaterialTopTabNavigator();
 
