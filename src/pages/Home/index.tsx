@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:07:20
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-21 16:57:00
+ * @LastEditTime: 2021-11-21 17:09:24
  */
 import React, {Component} from 'react';
 import {View, FlatList, ListRenderItemInfo} from 'react-native';
@@ -41,6 +41,15 @@ class Home extends Component<IProps> {
     });
   }
 
+  onPress = (item: IChannel) => {
+    console.log(item);
+    // const {navigation} = this.props;
+    // navigation.navigate('Album', {item});
+  };
+  keyExtractor = (item: IChannel) => {
+    return item.id;
+  };
+
   get ListHeaderComponent() {
     const {carousels} = this.props;
     return (
@@ -52,7 +61,7 @@ class Home extends Component<IProps> {
   }
 
   renderItem = ({item}: ListRenderItemInfo<IChannel>) => {
-    return <ChannelItem item={item} />;
+    return <ChannelItem item={item} onPress={this.onPress} />;
   };
 
   render() {
@@ -62,6 +71,7 @@ class Home extends Component<IProps> {
         data={channelList}
         renderItem={this.renderItem}
         ListHeaderComponent={this.ListHeaderComponent}
+        keyExtractor={item => `item-${item.id}`}
       />
     );
   }

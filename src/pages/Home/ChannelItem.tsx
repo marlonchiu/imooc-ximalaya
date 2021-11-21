@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-21 16:30:12
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-21 16:51:41
+ * @LastEditTime: 2021-11-21 17:04:48
  */
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
@@ -14,15 +14,22 @@ import {IChannel} from '@/models/home';
 
 interface IProps {
   item: IChannel;
-  // onPress: (item: IChannel) => void;
+  onPress: (item: IChannel) => void;
 }
 
-class ChannelItem extends React.Component<IProps> {
+class ChannelItem extends React.PureComponent<IProps> {
+  onPress = () => {
+    const {item, onPress} = this.props;
+    if (typeof onPress === 'function') {
+      onPress(item);
+    }
+  };
+
   render() {
     const {item} = this.props;
     return (
-      <Touchable style={styles.container}>
-        <View style={styles.item}>
+      <Touchable onPress={this.onPress} style={styles.container}>
+        <View style={styles.itemContainer}>
           <Image source={{uri: item.image}} style={styles.image} />
           <View style={styles.rightContainer}>
             <View style={styles.topView}>
@@ -55,7 +62,7 @@ const styles = StyleSheet.create({
   container: {
     // backgroundColor: '#fff',
   },
-  item: {
+  itemContainer: {
     flexDirection: 'row',
     margin: 10,
     padding: 10,
