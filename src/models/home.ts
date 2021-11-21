@@ -4,62 +4,63 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-17 18:38:25
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-18 17:39:43
+ * @LastEditTime: 2021-11-21 14:15:21
  */
+import axios from 'axios';
 import {Model, Effect} from 'dva-core-ts';
 import {Reducer} from 'redux';
 
-export interface HomeState {
-  num: number;
+const CAROUSEL_URL = '/mock/11/bear/carousel';
+
+export interface ICarousel {
+  id: number;
+  image: string;
+  colors: [string, string];
 }
 
-// const action = {
-//   type: 'add'
-// }
+export interface HomeModelState {
+  carousels: ICarousel[];
+}
 
-interface HomeModel extends Model {
-  namespace: 'home';
-  state: {
-    num: number;
-  };
+interface HomeModelType extends Model {
+  namespace: string;
+  state: HomeModelState;
   reducers: {
-    add: Reducer<HomeState>;
+    setState: Reducer<HomeModelState>;
   };
   effects: {
-    asyncAdd: Effect;
+    fetchCarousels: Effect;
   };
 }
 
-const initState = {
-  num: 0,
+const initialState: HomeModelState = {
+  carousels: [],
 };
 
-function delay(timeout: number) {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-}
-
-const homeModel: HomeModel = {
+// 首页模块的model
+const HomeModel: HomeModelType = {
   namespace: 'home',
-  state: initState,
+  state: initialState,
   reducers: {
-    add(state = initState, {payload}) {
+    setState(state, {payload}) {
       return {
         ...state,
-        num: state.num + payload.num,
+        ...payload,
       };
     },
   },
   effects: {
-    *asyncAdd({payload}, {call, put}) {
-      yield call(delay, 3000);
+    // 获取轮播图数据列表
+    *fetchCarousels(_, {call, put}) {
+      const {data} = yield call(axios.get, CAROUSEL_URL);
       yield put({
-        type: 'add',
-        payload,
+        type: 'setState',
+        payload: {
+          carousels: data,
+        },
       });
     },
   },
 };
 
-export default homeModel;
+export default HomeModel;

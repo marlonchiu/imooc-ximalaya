@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-20 17:53:35
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-20 20:00:25
+ * @LastEditTime: 2021-11-21 14:33:17
  */
 import React from 'react';
 import SnapCarousel, {
@@ -14,6 +14,7 @@ import SnapCarousel, {
 } from 'react-native-snap-carousel';
 import {viewportWidth, wp, hp} from '@/utils/index';
 import {View, StyleSheet} from 'react-native';
+import {ICarousel} from '@/models/home';
 
 // 屏幕宽度
 const sliderWidth = viewportWidth;
@@ -24,16 +25,19 @@ const itemHorizontalMargin = wp(2);
 // 轮播图每个item 宽度
 const itemWidth = slideWidth + itemHorizontalMargin * 2;
 
-const data = [
-  'https://t7.baidu.com/it/u=1819248061,230866778&fm=193&f=GIF',
-  'https://tenfei03.cfp.cn/creative/vcg/800/new/VCG41N1209433139.jpg',
-  'https://tenfei01.cfp.cn/creative/vcg/800/new/VCG41N1208988499.jpg',
-  'https://alifei04.cfp.cn/creative/vcg/800/new/VCG41N1222716030.jpg',
-  'https://alifei02.cfp.cn/creative/vcg/800/new/VCG41N1146433745.jpg',
-  'https://tenfei02.cfp.cn/creative/vcg/800/new/VCG41N1208988499.jpg',
-];
+// const data = [
+//   'https://t7.baidu.com/it/u=1819248061,230866778&fm=193&f=GIF',
+//   'https://tenfei03.cfp.cn/creative/vcg/800/new/VCG41N1209433139.jpg',
+//   'https://tenfei01.cfp.cn/creative/vcg/800/new/VCG41N1208988499.jpg',
+//   'https://alifei04.cfp.cn/creative/vcg/800/new/VCG41N1222716030.jpg',
+//   'https://alifei02.cfp.cn/creative/vcg/800/new/VCG41N1146433745.jpg',
+//   'https://tenfei02.cfp.cn/creative/vcg/800/new/VCG41N1208988499.jpg',
+// ];
 
-class Carousel extends React.Component {
+interface IProps {
+  data: ICarousel;
+}
+class Carousel extends React.Component<IProps> {
   state = {
     activeSlide: 0,
   };
@@ -45,12 +49,12 @@ class Carousel extends React.Component {
   };
 
   renderItem = (
-    {item}: {item: string},
+    {item}: {item: ICarousel},
     parallaxProps?: AdditionalParallaxProps,
   ) => {
     return (
       <ParallaxImage
-        source={{uri: item}}
+        source={{uri: item.image}}
         containerStyle={styles.imageContainer}
         style={styles.image}
         parallaxFactor={0.35}
@@ -62,6 +66,7 @@ class Carousel extends React.Component {
   };
 
   get pagination() {
+    const {data} = this.props;
     const {activeSlide} = this.state;
     return (
       <View style={styles.paginationWrapper}>
@@ -80,6 +85,7 @@ class Carousel extends React.Component {
   }
 
   render() {
+    const {data} = this.props;
     return (
       <View>
         <SnapCarousel

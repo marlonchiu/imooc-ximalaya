@@ -4,18 +4,18 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:07:20
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-20 17:47:01
+ * @LastEditTime: 2021-11-21 14:17:40
  */
 import React, {Component} from 'react';
-import {Text, View, Button} from 'react-native';
+import {View} from 'react-native';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '@/models/index';
 import {RootStackNavigation} from '../../navigator';
 import Carousel from './Carousel';
 
 const mapStateToProps = ({home, loading}: RootState) => ({
-  num: home.num,
-  loading: loading.effects['home/asyncAdd'],
+  carousels: home.carousels,
+  loading: loading.effects['home/fetchCarousels'],
 });
 
 const connector = connect(mapStateToProps);
@@ -27,40 +27,18 @@ interface IProps extends ModelState {
 }
 
 class Home extends Component<IProps> {
-  _onPressButton = () => {
-    const {navigation} = this.props;
-    navigation.navigate('Detail', {
-      id: 123,
-    });
-  };
-  _handleAdd = () => {
+  componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'home/add',
-      payload: {
-        num: 10,
-      },
+      type: 'home/fetchCarousels',
     });
-  };
-  _handleAsyncAdd = () => {
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'home/asyncAdd',
-      payload: {
-        num: 5,
-      },
-    });
-  };
+  }
+
   render() {
-    const {num, loading} = this.props;
+    const {carousels} = this.props;
     return (
       <View>
-        <Text>Home{num}</Text>
-        <Text>{loading ? '异步计算中...' : ''}</Text>
-        <Button title="同步添加" onPress={this._handleAdd} />
-        <Button title="异步添加" onPress={this._handleAsyncAdd} />
-        <Button title="跳转到详情页" onPress={this._onPressButton} />
-        <Carousel />
+        <Carousel data={carousels} />
       </View>
     );
   }
