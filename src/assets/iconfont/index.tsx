@@ -33,6 +33,7 @@ import IconBofang from './IconBofang';
 import IconBofangsanjiaoxing from './IconBofangsanjiaoxing';
 import IconTimeIcon from './IconTimeIcon';
 import IconMessage from './IconMessage';
+import IconMore from './IconMore';
 import IconBofang1 from './IconBofang1';
 import IconBofang2 from './IconBofang2';
 import IconFaxian from './IconFaxian';
@@ -68,6 +69,7 @@ export { default as IconBofang } from './IconBofang';
 export { default as IconBofangsanjiaoxing } from './IconBofangsanjiaoxing';
 export { default as IconTimeIcon } from './IconTimeIcon';
 export { default as IconMessage } from './IconMessage';
+export { default as IconMore } from './IconMore';
 export { default as IconBofang1 } from './IconBofang1';
 export { default as IconBofang2 } from './IconBofang2';
 export { default as IconFaxian } from './IconFaxian';
@@ -75,7 +77,7 @@ export { default as IconShijian } from './IconShijian';
 export { default as IconShouye } from './IconShouye';
 export { default as IconShoucang } from './IconShoucang';
 
-export type IconNames = 'icon-home-select' | 'icon-yemian-copy-copy' | 'icon-shouye1' | 'icon-volume-up' | 'icon-favorites-fill' | 'icon-volume-off' | 'icon-pause' | 'icon-play-arrow' | 'icon-fullscreen' | 'icon-lijitingke' | 'icon-bofang3' | 'icon-weibiaoti519' | 'icon-shangyishou' | 'icon-xiayishou' | 'icon-weibiaoti35' | 'icon-fanhui' | 'icon-fanhui1' | 'icon-huanyipi' | 'icon-qunfengcainixihuanxian' | 'icon-tubiao-' | 'icon-shengyin' | 'icon-shengyin1' | 'icon-V' | 'icon-add-select' | 'icon-user' | 'icon-bofang' | 'icon-bofangsanjiaoxing' | 'icon-time_icon' | 'icon-message' | 'icon-bofang1' | 'icon-bofang2' | 'icon-faxian' | 'icon-shijian' | 'icon-shouye' | 'icon-shoucang';
+export type IconNames = 'icon-home-select' | 'icon-yemian-copy-copy' | 'icon-shouye1' | 'icon-volume-up' | 'icon-favorites-fill' | 'icon-volume-off' | 'icon-pause' | 'icon-play-arrow' | 'icon-fullscreen' | 'icon-lijitingke' | 'icon-bofang3' | 'icon-weibiaoti519' | 'icon-shangyishou' | 'icon-xiayishou' | 'icon-weibiaoti35' | 'icon-fanhui' | 'icon-fanhui1' | 'icon-huanyipi' | 'icon-qunfengcainixihuanxian' | 'icon-tubiao-' | 'icon-shengyin' | 'icon-shengyin1' | 'icon-V' | 'icon-add-select' | 'icon-user' | 'icon-bofang' | 'icon-bofangsanjiaoxing' | 'icon-time_icon' | 'icon-message' | 'icon-more' | 'icon-bofang1' | 'icon-bofang2' | 'icon-faxian' | 'icon-shijian' | 'icon-shouye' | 'icon-shoucang';
 
 interface Props extends GProps, ViewProps {
   name: IconNames;
@@ -155,6 +157,8 @@ let IconFont: FunctionComponent<Props> = ({ name, ...rest }) => {
       return <IconShouye key="34" {...rest} />;
     case 'icon-shoucang':
       return <IconShoucang key="35" {...rest} />;
+    case 'icon-more':
+      return <IconMore key="36" {...rest} />;
   }
 
   return null;
