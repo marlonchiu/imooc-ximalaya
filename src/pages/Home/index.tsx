@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:07:20
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-21 18:11:20
+ * @LastEditTime: 2021-11-21 18:24:18
  */
 import React, {Component} from 'react';
 import {View, FlatList, ListRenderItemInfo} from 'react-native';
@@ -34,7 +34,15 @@ interface IProps extends ModelState {
   navigation: RootStackNavigation;
 }
 
-class Home extends Component<IProps> {
+interface IState {
+  refreshing: boolean;
+}
+
+class Home extends Component<IProps, IState> {
+  state = {
+    refreshing: false,
+  };
+
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
@@ -68,6 +76,25 @@ class Home extends Component<IProps> {
 
   keyExtractor = (item: IChannel) => {
     return item.id;
+  };
+
+  // 刷新
+  onRefresh = () => {
+    // 1.修改刷新状态为true
+    this.setState({
+      refreshing: true,
+    });
+    // 2.获取数据
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'home/fetchChannelList',
+      callback: () => {
+        // 3.修改刷新状态为false
+        this.setState({
+          refreshing: false,
+        });
+      },
+    });
   };
 
   get ListHeaderComponent() {
@@ -106,7 +133,8 @@ class Home extends Component<IProps> {
   }
 
   render() {
-    const {channelList, loading} = this.props;
+    const {channelList} = this.props;
+    const {refreshing} = this.state;
     return (
       <FlatList
         data={channelList}
@@ -115,7 +143,8 @@ class Home extends Component<IProps> {
         keyExtractor={this.keyExtractor}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={0.2}
-        refreshing={loading}
+        refreshing={refreshing}
+        onRefresh={this.onRefresh}
         ListFooterComponent={this.renderFooter}
         ListEmptyComponent={this.renderEmpty}
       />
