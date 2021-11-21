@@ -4,11 +4,12 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-17 18:38:25
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-21 16:33:54
+ * @LastEditTime: 2021-11-21 17:45:39
  */
 import axios from 'axios';
 import {Model, Effect} from 'dva-core-ts';
 import {Reducer} from 'redux';
+import {RootState} from './index';
 
 // 轮播图
 const CAROUSEL_URL = '/mock/11/bear/carousel';
@@ -36,11 +37,17 @@ export interface IChannel {
   playing: number;
   remark: string;
 }
+export interface IPagination {
+  current: number;
+  total: number;
+  hasMore: boolean;
+}
 
 export interface HomeModelState {
   carousels: ICarousel[];
   guessList: IGuess[];
   channelList: IChannel[];
+  pagination: IPagination;
 }
 
 interface HomeModelType extends Model {
@@ -60,6 +67,11 @@ const initialState: HomeModelState = {
   carousels: [],
   guessList: [],
   channelList: [],
+  pagination: {
+    current: 1,
+    total: 0,
+    hasMore: true,
+  },
 };
 
 // 首页模块的model
@@ -96,14 +108,38 @@ const HomeModel: HomeModelType = {
       });
     },
     // 获取首页频道数据列表
-    *fetchChannelList(_, {call, put}) {
-      const {data} = yield call(axios.get, CHANNEL_URL);
+    *fetchChannelList({callback, payload}, {call, put, select}) {
+      const {channelList, pagination} = yield select(
+        (state: RootState) => state.home,
+      );
+      let page = 1;
+      if (payload && payload.loadMore) {
+        page = pagination.current + 1;
+      }
+      const {data} = yield call(axios.get, CHANNEL_URL, {
+        params: {
+          page: page,
+        },
+      });
+      let newChannelList = data.results;
+      if (payload && payload.loadMore) {
+        newChannelList = channelList.concat(newChannelList);
+      }
+
       yield put({
         type: 'setState',
         payload: {
-          channelList: data.results,
+          channelList: newChannelList,
+          pagination: {
+            current: data.pagination.current,
+            total: data.pagination.total,
+            hasMore: newChannelList.length < data.pagination.total,
+          },
         },
       });
+      if (typeof callback === 'function') {
+        callback();
+      }
     },
   },
 };
