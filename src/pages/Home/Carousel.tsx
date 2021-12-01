@@ -4,17 +4,19 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-20 17:53:35
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-21 14:33:17
+ * @LastEditTime: 2021-12-01 10:02:24
  */
 import React from 'react';
+import {View, StyleSheet} from 'react-native';
 import SnapCarousel, {
   Pagination,
   ParallaxImage,
   AdditionalParallaxProps,
 } from 'react-native-snap-carousel';
-import {viewportWidth, wp, hp} from '@/utils/index';
-import {View, StyleSheet} from 'react-native';
+import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from '@/models/index';
 import {ICarousel} from '@/models/home';
+import {viewportWidth, wp, hp} from '@/utils/index';
 
 // 屏幕宽度
 const sliderWidth = viewportWidth;
@@ -34,17 +36,33 @@ const itemWidth = slideWidth + itemHorizontalMargin * 2;
 //   'https://tenfei02.cfp.cn/creative/vcg/800/new/VCG41N1208988499.jpg',
 // ];
 
-interface IProps {
-  data: ICarousel;
-}
+const mapStateToProps = ({home}: RootState) => ({
+  carousels: home.carousels,
+  activeSlide: home.activeSlide,
+});
+
+const connector = connect(mapStateToProps);
+
+type ModelState = ConnectedProps<typeof connector>;
+
+interface IProps extends ModelState {}
+
 class Carousel extends React.Component<IProps> {
   state = {
     activeSlide: 0,
   };
 
   onSnapToItem = (index: number) => {
-    this.setState({
-      activeSlide: index,
+    const {dispatch} = this.props;
+    if (typeof index !== 'number') {
+      return;
+    }
+
+    dispatch({
+      type: 'home/setState',
+      payload: {
+        activeSlide: index,
+      },
     });
   };
 
@@ -66,12 +84,11 @@ class Carousel extends React.Component<IProps> {
   };
 
   get pagination() {
-    const {data} = this.props;
-    const {activeSlide} = this.state;
+    const {carousels, activeSlide} = this.props;
     return (
       <View style={styles.paginationWrapper}>
         <Pagination
-          dotsLength={data.length}
+          dotsLength={carousels.length}
           activeDotIndex={activeSlide}
           containerStyle={styles.paginationContainer}
           dotContainerStyle={styles.dotContainer}
@@ -85,11 +102,11 @@ class Carousel extends React.Component<IProps> {
   }
 
   render() {
-    const {data} = this.props;
+    const {carousels} = this.props;
     return (
       <View>
         <SnapCarousel
-          data={data}
+          data={carousels}
           renderItem={this.renderItem}
           sliderWidth={sliderWidth}
           itemWidth={itemWidth}
@@ -137,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Carousel;
+export default connector(Carousel);

@@ -4,13 +4,13 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:07:20
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-21 18:24:18
+ * @LastEditTime: 2021-12-01 10:02:18
  */
 import React, {Component} from 'react';
 import {View, FlatList, ListRenderItemInfo} from 'react-native';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '@/models/index';
-import {RootStackNavigation} from '../../navigator';
+import {RootStackNavigation} from '@/navigator/index';
 import Carousel from './Carousel';
 import Guess from './Guess';
 import More from '@/components/More';
@@ -98,10 +98,9 @@ class Home extends Component<IProps, IState> {
   };
 
   get ListHeaderComponent() {
-    const {carousels} = this.props;
     return (
       <View>
-        <Carousel data={carousels} />
+        <Carousel />
         <Guess />
       </View>
     );

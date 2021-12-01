@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-17 18:38:25
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-21 17:45:39
+ * @LastEditTime: 2021-12-01 09:58:29
  */
 import axios from 'axios';
 import {Model, Effect} from 'dva-core-ts';
@@ -29,6 +29,7 @@ export interface IGuess {
   title: string;
   image: string;
 }
+
 export interface IChannel {
   id: string;
   image: string;
@@ -37,6 +38,7 @@ export interface IChannel {
   playing: number;
   remark: string;
 }
+
 export interface IPagination {
   current: number;
   total: number;
@@ -44,6 +46,7 @@ export interface IPagination {
 }
 
 export interface HomeModelState {
+  activeSlide: number; // 当前轮播图的下标
   carousels: ICarousel[];
   guessList: IGuess[];
   channelList: IChannel[];
@@ -64,6 +67,7 @@ interface HomeModelType extends Model {
 }
 
 const initialState: HomeModelState = {
+  activeSlide: 0,
   carousels: [],
   guessList: [],
   channelList: [],

@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-30 17:14:05
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-12-01 09:50:27
+ * @LastEditTime: 2021-12-01 10:52:35
  */
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
@@ -15,8 +15,23 @@ import {
   MaterialTopTabBarProps,
 } from '@react-navigation/material-top-tabs';
 import LinearGradient from 'react-native-linear-gradient';
+import {connect, ConnectedProps} from 'react-redux';
+import {RootState} from '@/models/index';
 
-interface IProps extends MaterialTopTabBarProps {}
+const mapStateToProps = ({home}: RootState) => {
+  let carouselList = home.carousels;
+  let activeIndex = home.activeSlide;
+  return {
+    activeColors:
+      carouselList && carouselList.length > 0
+        ? carouselList[activeIndex].colors
+        : undefined,
+  };
+};
+const connector = connect(mapStateToProps);
+type ModelState = ConnectedProps<typeof connector>;
+
+type IProps = MaterialTopTabBarProps & ModelState;
 
 class TopTabBarWrapper extends React.Component<IProps> {
   goSortPage = () => {
@@ -29,15 +44,18 @@ class TopTabBarWrapper extends React.Component<IProps> {
     navigation.navigate('History');
   };
 
+  get gradient() {
+    let {activeColors = ['#ccc', '#e2e2e2']} = this.props;
+
+    return <LinearGradient colors={activeColors} style={[styles.gradient]} />;
+  }
+
   render() {
     let textStyle = styles.text;
 
     return (
       <View style={styles.container}>
-        <LinearGradient
-          colors={['#4c669f', '#192f6a']}
-          style={styles.gradient}
-        />
+        {this.gradient}
         <View style={styles.topTabBarView}>
           <View style={styles.tabBar}>
             <MaterialTopTabBar
@@ -67,7 +85,7 @@ const styles = StyleSheet.create({
   container: {},
   gradient: {
     ...StyleSheet.absoluteFillObject,
-    height: 560,
+    height: 260,
     paddingTop: getStatusBarHeight(),
   },
   topTabBarView: {
@@ -112,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TopTabBarWrapper;
+export default connector(TopTabBarWrapper);
