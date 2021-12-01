@@ -4,23 +4,35 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-19 10:50:02
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-20 17:49:54
+ * @LastEditTime: 2021-12-01 09:41:20
  */
 import React from 'react';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {StyleSheet} from 'react-native';
+import {
+  createMaterialTopTabNavigator,
+  MaterialTopTabBarProps,
+} from '@react-navigation/material-top-tabs';
 import Home from '@/pages/Home/index';
+import TopTabBarWrapper from '@/pages/views/TopTabBarWrapper';
 
 const Tab = createMaterialTopTabNavigator();
 
 class HomeTabs extends React.Component {
+  renderTabBar = (props: MaterialTopTabBarProps) => {
+    return <TopTabBarWrapper {...props} />;
+  };
+
   render() {
     return (
       <Tab.Navigator
         lazy
+        tabBar={this.renderTabBar}
+        sceneContainerStyle={styles.sceneContainer}
         tabBarOptions={{
           scrollEnabled: true,
           tabStyle: {
             width: 80,
+            padding: 0,
           },
           indicatorStyle: {
             height: 4,
@@ -33,7 +45,7 @@ class HomeTabs extends React.Component {
           inactiveTintColor: '#333',
         }}>
         <Tab.Screen
-          name="home1"
+          name="Home"
           component={Home}
           options={{tabBarLabel: '推荐'}}
         />
@@ -41,5 +53,11 @@ class HomeTabs extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  sceneContainer: {
+    backgroundColor: 'transparent',
+  },
+});
 
 export default HomeTabs;

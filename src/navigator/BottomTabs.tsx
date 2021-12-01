@@ -4,11 +4,14 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-16 16:00:07
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-11-20 17:48:40
+ * @LastEditTime: 2021-11-30 17:09:55
  */
 
 import React, {Component} from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  createBottomTabNavigator,
+  BottomTabNavigationProp,
+} from '@react-navigation/bottom-tabs';
 import Listen from '@/pages/Listen';
 import Found from '@/pages/Found';
 import Account from '@/pages/Account';
@@ -24,6 +27,8 @@ export type BottomTabParamList = {
   Account: undefined;
 };
 
+export type BottomTabNavigation = BottomTabNavigationProp<BottomTabParamList>;
+
 type Route = RouteProp<RootStackParamList, 'BottomTabs'> & {
   state?: TabNavigationState;
 };
@@ -36,10 +41,7 @@ interface IProps {
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 // 获取标签
-function getHeaderTitle(route: Route) {
-  const routeName = route.state
-    ? route.state.routes[route.state.index].name
-    : route.params?.screen || 'HomeTabs';
+function getHeaderTitle(routeName: string | undefined) {
   switch (routeName) {
     case 'HomeTabs':
       return '首页';
@@ -54,12 +56,31 @@ function getHeaderTitle(route: Route) {
   }
 }
 class BottomTabs extends Component<IProps> {
-  componentDidUpdate() {
-    const {navigation, route} = this.props;
-    navigation.setOptions({
-      headerTitle: getHeaderTitle(route),
-    });
+  componentDidMount() {
+    this.setOptions();
   }
+
+  componentDidUpdate() {
+    this.setOptions();
+  }
+
+  setOptions = () => {
+    const {navigation, route} = this.props;
+    const routeName = route.state
+      ? route.state.routes[route.state.index].name
+      : route.params?.screen || 'HomeTabs';
+    if (routeName === 'HomeTabs') {
+      navigation.setOptions({
+        headerTitle: '',
+        headerTransparent: true,
+      });
+    } else {
+      navigation.setOptions({
+        headerTitle: getHeaderTitle(routeName),
+        headerTransparent: false,
+      });
+    }
+  };
 
   render() {
     return (
