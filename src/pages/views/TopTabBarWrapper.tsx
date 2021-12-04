@@ -4,19 +4,22 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-30 17:14:05
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-12-01 10:52:35
+ * @LastEditTime: 2021-12-04 14:24:08
  */
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Animated} from 'react-native';
 import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 import Touchable from '@/components/Touchable';
 import {
   MaterialTopTabBar,
   MaterialTopTabBarProps,
 } from '@react-navigation/material-top-tabs';
-import LinearGradient from 'react-native-linear-gradient';
+// import LinearGradient from 'react-native-linear-gradient';
+import LinearAnimatedGradientTransition from 'react-native-linear-animated-gradient-transition';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '@/models/index';
+import slideHeight from '@/pages/Home/Carousel';
+import {viewportHeight} from '@/utils/index';
 
 const mapStateToProps = ({home}: RootState) => {
   let carouselList = home.carousels;
@@ -26,6 +29,7 @@ const mapStateToProps = ({home}: RootState) => {
       carouselList && carouselList.length > 0
         ? carouselList[activeIndex].colors
         : undefined,
+    scrollValue: home.scrollValue,
   };
 };
 const connector = connect(mapStateToProps);
@@ -34,6 +38,40 @@ type ModelState = ConnectedProps<typeof connector>;
 type IProps = MaterialTopTabBarProps & ModelState;
 
 class TopTabBarWrapper extends React.Component<IProps> {
+  state = {
+    showLinears: true, // 是否显示渐变色组件颜色
+  };
+
+  listenerId: string = '';
+
+  componentDidMount() {
+    const {scrollValue} = this.props;
+    if (scrollValue) {
+      this.listenerId = scrollValue.addListener(this.animatedListener);
+    }
+  }
+
+  animatedListener = ({value}: {value: number}) => {
+    const {showLinears} = this.state;
+    let newShowLinears = true;
+    if (value > viewportHeight * 0.26) {
+      newShowLinears = false;
+    }
+    if (showLinears !== newShowLinears) {
+      this.setState({
+        showLinears: newShowLinears,
+      });
+    }
+  };
+
+  componentDidUpdate(prevProps: IProps) {
+    const {scrollValue} = this.props;
+    if (scrollValue && prevProps.scrollValue !== scrollValue) {
+      scrollValue.removeListener && scrollValue.removeListener(this.listenerId);
+      this.listenerId = scrollValue.addListener(this.animatedListener);
+    }
+  }
+
   goSortPage = () => {
     const {navigation} = this.props;
     navigation.navigate('Category');
@@ -45,13 +83,36 @@ class TopTabBarWrapper extends React.Component<IProps> {
   };
 
   get gradient() {
+    const {showLinears} = this.state;
     let {activeColors = ['#ccc', '#e2e2e2']} = this.props;
-
-    return <LinearGradient colors={activeColors} style={[styles.gradient]} />;
+    if (showLinears) {
+      return (
+        <LinearAnimatedGradientTransition
+          colors={activeColors}
+          style={[styles.gradient]}
+        />
+      );
+    } else {
+      return null;
+    }
   }
 
   render() {
+    const {showLinears} = this.state;
+    let {activeTintColor, inactiveTintColor, indicatorStyle} = this.props;
     let textStyle = styles.text;
+    if (!showLinears) {
+      activeTintColor = '#000';
+      inactiveTintColor = '#333';
+      if (indicatorStyle) {
+        indicatorStyle = StyleSheet.compose(
+          indicatorStyle,
+          styles.blackBgColor,
+        );
+      }
+    } else {
+      indicatorStyle = StyleSheet.compose(indicatorStyle, styles.whiteBgColor);
+    }
 
     return (
       <View style={styles.container}>
@@ -60,11 +121,14 @@ class TopTabBarWrapper extends React.Component<IProps> {
           <View style={styles.tabBar}>
             <MaterialTopTabBar
               {...this.props}
+              indicatorStyle={indicatorStyle}
+              activeTintColor={activeTintColor}
+              inactiveTintColor={inactiveTintColor}
               style={{backgroundColor: 'transparent'}}
             />
           </View>
           <Touchable style={styles.sortBtn} onPress={this.goSortPage}>
-            <Text>分类</Text>
+            <Text style={textStyle}>分类</Text>
           </Touchable>
         </View>
 
@@ -125,8 +189,17 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
   },
+  whiteText: {
+    color: '#fff',
+  },
   blackText: {
     color: '#333',
+  },
+  whiteBgColor: {
+    backgroundColor: '#fff',
+  },
+  blackBgColor: {
+    backgroundColor: '#333',
   },
 });
 

@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-20 17:53:35
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-12-01 10:02:24
+ * @LastEditTime: 2021-12-01 14:30:06
  */
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
@@ -22,7 +22,7 @@ import {viewportWidth, wp, hp} from '@/utils/index';
 const sliderWidth = viewportWidth;
 // 图片宽度
 const slideWidth = wp(90);
-const slideHeight = hp(26);
+export const slideHeight = hp(26);
 const itemHorizontalMargin = wp(2);
 // 轮播图每个item 宽度
 const itemWidth = slideWidth + itemHorizontalMargin * 2;

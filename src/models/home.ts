@@ -4,9 +4,10 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-17 18:38:25
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-12-01 09:58:29
+ * @LastEditTime: 2021-12-01 15:18:09
  */
 import axios from 'axios';
+import {Animated} from 'react-native';
 import {Model, Effect} from 'dva-core-ts';
 import {Reducer} from 'redux';
 import {RootState} from './index';
@@ -47,6 +48,7 @@ export interface IPagination {
 
 export interface HomeModelState {
   activeSlide: number; // 当前轮播图的下标
+  scrollValue: Animated.Value; // 滚动高度
   carousels: ICarousel[];
   guessList: IGuess[];
   channelList: IChannel[];
@@ -68,6 +70,7 @@ interface HomeModelType extends Model {
 
 const initialState: HomeModelState = {
   activeSlide: 0,
+  scrollValue: new Animated.Value(0),
   carousels: [],
   guessList: [],
   channelList: [],

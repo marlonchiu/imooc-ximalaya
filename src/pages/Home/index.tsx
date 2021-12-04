@@ -4,10 +4,18 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:07:20
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-12-01 10:02:18
+ * @LastEditTime: 2021-12-04 14:27:48
  */
 import React, {Component} from 'react';
-import {View, FlatList, ListRenderItemInfo} from 'react-native';
+import {
+  View,
+  FlatList,
+  ListRenderItemInfo,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  Animated,
+  StyleSheet,
+} from 'react-native';
 import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '@/models/index';
 import {RootStackNavigation} from '@/navigator/index';
@@ -22,6 +30,7 @@ import {IChannel} from '@/models/home';
 const mapStateToProps = ({home, loading}: RootState) => ({
   carousels: home.carousels,
   channelList: home.channelList,
+  scrollValue: home.scrollValue,
   hasMore: home.pagination.hasMore,
   loading: loading.effects['home/fetchChannelList'],
 });
@@ -68,6 +77,20 @@ class Home extends Component<IProps, IState> {
     });
   };
 
+  onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const {scrollValue} = this.props;
+    console.log('scrollValue: ', scrollValue);
+    Animated.event([
+      {
+        nativeEvent: {
+          contentOffset: {
+            y: scrollValue,
+          },
+        },
+      },
+    ])(e);
+  };
+
   onPress = (item: IChannel) => {
     console.log(item);
     // const {navigation} = this.props;
@@ -101,7 +124,9 @@ class Home extends Component<IProps, IState> {
     return (
       <View>
         <Carousel />
-        <Guess />
+        <View style={styles.guessBg}>
+          <Guess />
+        </View>
       </View>
     );
   }
@@ -146,9 +171,15 @@ class Home extends Component<IProps, IState> {
         onRefresh={this.onRefresh}
         ListFooterComponent={this.renderFooter}
         ListEmptyComponent={this.renderEmpty}
+        onScroll={this.onScroll}
       />
     );
   }
 }
 
+const styles = StyleSheet.create({
+  guessBg: {
+    backgroundColor: '#fff',
+  },
+});
 export default connector(Home);
