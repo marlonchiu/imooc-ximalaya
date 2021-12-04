@@ -85,7 +85,6 @@ const categoryModel: CategoryModelType = {
         yield put({
           type: 'setState',
           payload: {
-            myCategoryList,
             categoryList,
           },
         });
