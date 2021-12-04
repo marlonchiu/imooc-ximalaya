@@ -6,11 +6,15 @@
  * @LastEditors: jdzhao@iflytek.com
  * @LastEditTime: 2021-11-20 20:54:21
  */
-import home from './home';
 import {DvaLoadingState} from 'dva-loading-ts';
-const models = [home];
+import home from './home';
+import category from './category';
+
+const models = [home, category];
+
 export type RootState = {
   home: typeof home.state;
+  category: typeof category.state;
   loading: DvaLoadingState;
 };
 

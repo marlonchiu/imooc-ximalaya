@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-17 18:38:25
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-12-01 15:18:09
+ * @LastEditTime: 2021-12-04 15:26:24
  */
 import axios from 'axios';
 import {Animated} from 'react-native';
@@ -82,7 +82,7 @@ const initialState: HomeModelState = {
 };
 
 // 首页模块的model
-const HomeModel: HomeModelType = {
+const homeModel: HomeModelType = {
   namespace: 'home',
   state: initialState,
   reducers: {
@@ -151,4 +151,4 @@ const HomeModel: HomeModelType = {
   },
 };
 
-export default HomeModel;
+export default homeModel;
