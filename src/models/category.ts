@@ -4,12 +4,13 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-12-04 15:01:42
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-12-04 15:32:46
+ * @LastEditTime: 2021-12-04 21:37:43
  */
 import axios from 'axios';
 import {Model, Effect, SubscriptionsMapObject} from 'dva-core-ts';
 import {Reducer} from 'redux';
 import storage, {storageLoad} from '@/config/storage';
+import {RootState} from './index';
 
 // 分类接口
 const CATEGORY_URL = '/mock/11/bear/category';
@@ -21,6 +22,7 @@ export interface ICategory {
 }
 
 export interface CategoryModelState {
+  isEdit: boolean; // 是否正在编辑
   myCategoryList: ICategory[];
   categoryList: ICategory[];
 }
@@ -33,11 +35,13 @@ interface CategoryModelType extends Model {
   };
   effects: {
     loadDataForStorage: Effect;
+    toggleEdit: Effect;
   };
   subscriptions: SubscriptionsMapObject;
 }
 
 const initialState: CategoryModelState = {
+  isEdit: false,
   myCategoryList: [
     {
       id: 'home',
@@ -89,6 +93,27 @@ const categoryModel: CategoryModelType = {
           },
         });
       }
+    },
+    *toggleEdit(_, {put, select}) {
+      const category: CategoryModelState = yield select(
+        (state: RootState) => state.category,
+      );
+      yield put({
+        type: 'setState',
+        payload: {
+          isEdit: !category.isEdit,
+        },
+      });
+      // if (category.isEdit) {
+      //   storage.save({
+      //     key: 'categoryList',
+      //     data: category.categoryList,
+      //   });
+      //   storage.save({
+      //     key: 'myCategoryList',
+      //     data: category.myCategoryList,
+      //   });
+      // }
     },
   },
   subscriptions: {

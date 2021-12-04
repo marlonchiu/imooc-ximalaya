@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-12-04 15:39:10
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-12-04 21:15:43
+ * @LastEditTime: 2021-12-04 21:41:59
  */
 import React from 'react';
 import {ScrollView, View, Text, StyleSheet} from 'react-native';
@@ -13,6 +13,8 @@ import {connect, ConnectedProps} from 'react-redux';
 import {RootState} from '@/models/index';
 import {ICategory} from '@/models/category';
 import Item from './Item';
+import HeaderRightBtn from './HeaderRightBtn';
+import {RootStackNavigation} from '@/navigator/index';
 
 const mapStateToProps = ({category}: RootState) => ({
   myCategoryList: category.myCategoryList,
@@ -23,7 +25,9 @@ const connector = connect(mapStateToProps);
 
 type ModelState = ConnectedProps<typeof connector>;
 
-interface IProps extends ModelState {}
+interface IProps extends ModelState {
+  navigation: RootStackNavigation;
+}
 
 interface IState {
   myCategoryList: ICategory[];
@@ -32,6 +36,20 @@ interface IState {
 class Category extends React.Component<IProps, IState> {
   state = {
     myCategoryList: this.props.myCategoryList,
+  };
+
+  constructor(props: IProps) {
+    super(props);
+    props.navigation.setOptions({
+      headerRight: () => <HeaderRightBtn onSubmit={this.onSubmit} />,
+    });
+  }
+
+  onSubmit = () => {
+    const {dispatch} = this.props;
+    dispatch({
+      type: 'category/toggleEdit',
+    });
   };
 
   renderItem = (item: ICategory, index: number) => {

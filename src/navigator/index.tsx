@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-14 15:11:07
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-12-04 15:43:22
+ * @LastEditTime: 2021-12-04 22:29:05
  */
 import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
@@ -47,7 +47,13 @@ class Navigator extends Component {
             // 开启手势
             gestureEnabled: true,
             gestureDirection: 'horizontal',
-            headerStatusBarHeight: StatusBar.currentHeight,
+            ...Platform.select({
+              android: {
+                headerStatusBarHeight: StatusBar.currentHeight,
+              },
+            }),
+            headerBackTitleVisible: false,
+            headerTintColor: '#333',
             // 标题栏的样式
             headerStyle: {
               ...Platform.select({

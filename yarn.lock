@@ -5990,6 +5990,11 @@ react-native-linear-gradient@2.5.6, react-native-linear-gradient@^2.5.6:
   resolved "https://registry.nlark.com/react-native-linear-gradient/download/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
   integrity sha1-liFcvF7HoBJHogiQiIqnW4NNRKA=
 
+react-native-platform-touchable@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npm.taobao.org/react-native-platform-touchable/download/react-native-platform-touchable-1.1.1.tgz#fde4acc65eea585d28b164d0c3716a42129a68e4"
+  integrity sha1-/eSsxl7qWF0osWTQw3FqQhKaaOQ=
+
 react-native-reanimated@^1.7.0:
   version "1.13.3"
   resolved "https://registry.npmmirror.com/react-native-reanimated/download/react-native-reanimated-1.13.3.tgz#fb0e1d582c8866015140f2159e147ffe6e798a3a"
@@ -6072,6 +6077,13 @@ react-native@0.66.2:
     use-subscription "^1.0.0"
     whatwg-fetch "^3.0.0"
     ws "^6.1.4"
+
+react-navigation-header-buttons@3.0.5:
+  version "3.0.5"
+  resolved "https://registry.npmmirror.com/react-navigation-header-buttons/download/react-navigation-header-buttons-3.0.5.tgz#5b8c0fc32bc59382f02015e4b2f19a135b99dca4"
+  integrity sha1-W4wPwyvFk4LwIBXksvGaE1uZ3KQ=
+  dependencies:
+    react-native-platform-touchable "^1.1.1"
 
 react-redux@^7.2.6:
   version "7.2.6"
