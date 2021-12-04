@@ -4,7 +4,7 @@
  * @Author: jdzhao@iflytek.com
  * @Date: 2021-11-30 17:14:05
  * @LastEditors: jdzhao@iflytek.com
- * @LastEditTime: 2021-12-04 14:24:08
+ * @LastEditTime: 2021-12-04 15:45:57
  */
 import React from 'react';
 import {View, Text, StyleSheet, Animated} from 'react-native';
@@ -72,7 +72,7 @@ class TopTabBarWrapper extends React.Component<IProps> {
     }
   }
 
-  goSortPage = () => {
+  goCategoryPage = () => {
     const {navigation} = this.props;
     navigation.navigate('Category');
   };
@@ -127,7 +127,7 @@ class TopTabBarWrapper extends React.Component<IProps> {
               style={{backgroundColor: 'transparent'}}
             />
           </View>
-          <Touchable style={styles.sortBtn} onPress={this.goSortPage}>
+          <Touchable style={styles.categoryBtn} onPress={this.goCategoryPage}>
             <Text style={textStyle}>分类</Text>
           </Touchable>
         </View>
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   history: {
     marginLeft: 24,
   },
-  sortBtn: {
+  categoryBtn: {
     paddingHorizontal: 8,
     borderLeftColor: '#eee',
     borderLeftWidth: StyleSheet.hairlineWidth,
